@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SearchComponent } from './search/search.component';
+import { CatalogComponent } from './catalog/catalog.component';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'search',
-    component: SearchComponent,
+    component: CatalogComponent,
   },
 ];
 @NgModule({

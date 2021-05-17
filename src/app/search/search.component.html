@@ -1,29 +1,6 @@
 <mat-form-field class="input-full-width">
   <input matInput type="text" [(ngModel)]="searchBy">
-  <button mat-button matSuffix mat-icon-button (click)="onClickSearch(searchBy)">
+  <button mat-button matSuffix mat-icon-button (click)="onClickSearch()">
     <mat-icon>search</mat-icon>
   </button>
 </mat-form-field>
-
-<mat-form-field appearance="fill">
-  <mat-label>Order By</mat-label>
-  <mat-select [(ngModel)]="orderByKey" (selectionChange)="onOrderBy($event.value)">
-    <mat-option value="title">Title</mat-option>
-    <mat-option value="description">Description</mat-option>
-    <mat-option value="price">Price</mat-option>
-    <mat-option value="email">Email</mat-option>
-  </mat-select>
-</mat-form-field>
-
-
-<button mat-stroked-button color="accent" (click)="onShowFavorites()">
-  Favorites
-  <mat-icon>favorite_border</mat-icon>
-</button>
-
-<div *ngFor="let item of filteredItems">
-  <app-item-card [item]="item"></app-item-card>
-</div>
-<div *ngIf="filteredItems.length === 0">
-  <h2>No se han encontrado resultados</h2>
-</div>

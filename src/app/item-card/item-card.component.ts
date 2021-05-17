@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ItemResponse } from '../shared/model/ItemResponse';
 
 @Component({
@@ -8,12 +8,20 @@ import { ItemResponse } from '../shared/model/ItemResponse';
 })
 export class ItemCardComponent implements OnInit {
   @Input() item: ItemResponse;
-  favorite: boolean;
+  @Output() removeFavorite: EventEmitter<ItemResponse> = new EventEmitter();
+  @Output() addFavorite: EventEmitter<ItemResponse> = new EventEmitter();
 
   constructor() {
-    this.favorite = false;
     this.item = {} as ItemResponse;
   }
 
   ngOnInit(): void {}
+
+  add() {
+    this.addFavorite.emit(this.item);
+  }
+
+  remove() {
+    this.removeFavorite.emit(this.item);
+  }
 }

@@ -11,6 +11,7 @@ import { SearchComponent } from './search/search.component';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
+import { CatalogComponent } from './catalog/catalog.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.compo
     ItemCardComponent,
     SearchComponent,
     FavoriteDialogComponent,
+    CatalogComponent,
   ],
   imports: [
     BrowserModule,
