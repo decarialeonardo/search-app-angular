@@ -16,6 +16,11 @@
 </mat-form-field>
 
 
+<button mat-stroked-button color="accent" (click)="onShowFavorites()">
+  Favorites
+  <mat-icon>favorite_border</mat-icon>
+</button>
+
 <div *ngFor="let item of filteredItems">
   <app-item-card [item]="item"></app-item-card>
 </div>

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { FavoriteDialogComponent } from '../favorite-dialog/favorite-dialog.component';
 import { ApiService } from '../shared/api/api.service';
 import { ItemResponse } from '../shared/model/ItemResponse';
-import { SearchPipe } from '../shared/pipes/search.pipe';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  providers: [SearchPipe],
 })
 export class SearchComponent implements OnInit {
   items: Array<ItemResponse>;
@@ -15,7 +15,7 @@ export class SearchComponent implements OnInit {
   searchBy: string;
   orderByKey: string;
 
-  constructor(private apiService: ApiService, private search: SearchPipe) {
+  constructor(private _dialog: MatDialog, private apiService: ApiService) {
     this.items = [];
     this.filteredItems = [];
     this.searchBy = '';
@@ -28,6 +28,10 @@ export class SearchComponent implements OnInit {
       this.filteredItems = [...items];
       this.onOrderBy(this.orderByKey);
     });
+  }
+
+  onShowFavorites() {
+    const dialogRef = this._dialog.open(FavoriteDialogComponent, {});
   }
 
   onClickSearch(value: string): void {

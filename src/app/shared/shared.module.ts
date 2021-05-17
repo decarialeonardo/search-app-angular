@@ -1,11 +1,10 @@
 import { AppMaterialModule } from './app-material/app-material.module';
 import { NgModule } from '@angular/core';
-import { SearchPipe } from './pipes/search.pipe';
 @NgModule({
-  declarations: [SearchPipe],
+  declarations: [],
   imports: [AppMaterialModule],
   providers: [],
   bootstrap: [],
-  exports: [AppMaterialModule, SearchPipe],
+  exports: [AppMaterialModule],
 })
 export class SharedModule {}

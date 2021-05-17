@@ -10,9 +10,15 @@ import { ItemCardComponent } from './item-card/item-card.component';
 import { SearchComponent } from './search/search.component';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, ItemCardComponent, SearchComponent],
+  declarations: [
+    AppComponent,
+    ItemCardComponent,
+    SearchComponent,
+    FavoriteDialogComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -21,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     SharedModule,
   ],
+  entryComponents: [FavoriteDialogComponent],
   providers: [ApiService],
   bootstrap: [AppComponent],
 })
