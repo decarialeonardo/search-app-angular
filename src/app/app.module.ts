@@ -6,14 +6,20 @@ import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiService } from './shared/api/api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ItemCardComponent } from './item-card/item-card.component';
+import { SearchComponent } from './search/search.component';
+import { SharedModule } from './shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ItemCardComponent, SearchComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
     HttpClientModule,
+    FormsModule,
+    SharedModule,
   ],
   providers: [ApiService],
   bootstrap: [AppComponent],

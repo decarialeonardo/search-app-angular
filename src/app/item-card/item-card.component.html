@@ -1,0 +1,23 @@
+<mat-card class="item-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>{{item.price}}€</h2>
+      <h3>{{item.title}}</h3>
+    </mat-card-title>
+    <mat-card-subtitle>{{item.email}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="{{item.image}}" alt="{{item.title}} image">
+  <mat-card-content>
+    <p>
+      {{item.description}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button *ngIf="favorite" (click)="favorite = !favorite" mat-icon-button color="warn" aria-label="Remove favorite">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button *ngIf="!favorite" (click)="favorite = !favorite" mat-icon-button color="warn" aria-label="Add favorite">
+      <mat-icon>favorite_border</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
