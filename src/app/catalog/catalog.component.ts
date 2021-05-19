@@ -25,13 +25,18 @@ export class CatalogComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getItems().subscribe((items: Array<ItemResponse>) => {
       this.items = items;
-      this.filteredItems = [...items];
+      this.items.map((e, index) => {
+        e.id = index.toString();
+      });
+      this.filteredItems = [...this.items];
       this.onOrderBy(this.orderByKey);
     });
   }
 
   onShowFavorites() {
-    const dialogRef = this._dialog.open(FavoriteDialogComponent, {});
+    const dialogRef = this._dialog.open(FavoriteDialogComponent, {
+      data: { items: this.favoriteItems },
+    });
   }
 
   onSubmitSearch(value: string): void {
@@ -42,6 +47,7 @@ export class CatalogComponent implements OnInit {
       this.filteredItems = this.items.filter((item: ItemResponse) => {
         let itemCopy = { ...item };
         itemCopy.image = '';
+        delete itemCopy.id;
         return JSON.stringify(itemCopy).toLowerCase().includes(value);
       });
     }
@@ -50,23 +56,27 @@ export class CatalogComponent implements OnInit {
 
   onAddFavorite(item: ItemResponse) {
     let index = this.favoriteItems.findIndex((i: ItemResponse) => {
-      return JSON.stringify(i) === JSON.stringify(item);
+      return i.id === item.id;
     });
     if (index !== -1) {
       this.favoriteItems[index].favorite = true;
     } else {
-      item.favorite = true;
-      this.favoriteItems.push(item);
+      this.favoriteItems.push({
+        title: item.title,
+        image: item.image,
+        favorite: true,
+        id: item.id,
+      });
     }
   }
 
   onRemoveFavorite(item: ItemResponse) {
-    this.favoriteItems.map((i: ItemResponse) => {
-      if (JSON.stringify(i) === JSON.stringify(item)) {
-        i.favorite = false;
-      }
-      return i;
-    });
+    const idx = this.favoriteItems.findIndex(
+      (i: ItemResponse) => i.id === item.id
+    );
+    if (idx !== -1) {
+      this.favoriteItems.splice(idx, 1);
+    }
   }
 
   onOrderBy(key: string): void {
@@ -91,5 +101,13 @@ export class CatalogComponent implements OnInit {
         }
       );
     }
+  }
+
+  isFavoriteItem(item: ItemResponse): boolean {
+    const itemFound = this.favoriteItems.find((e) => e.id === item.id);
+    if (itemFound) {
+      return itemFound?.favorite as boolean;
+    }
+    return false;
   }
 }

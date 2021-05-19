@@ -6,17 +6,19 @@
     </mat-card-title>
     <mat-card-subtitle *ngIf="item.email">{{item.email}}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src="{{item.image}}" alt="{{item.title}} image">
-  <mat-card-content *ngIf="item.description">
+  <div class="image-container">
+    <img mat-card-image src="{{item.image}}" alt="{{item.title}} image">
+  </div>
+  <mat-card-content *ngIf="item.description" class="card-description">
     <p>
-      {{item.description}}
+      {{item.description | truncate: 150 }}
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button *ngIf="item.favorite" (click)="remove()" mat-icon-button color="warn" aria-label="Remove favorite">
+    <button *ngIf="favorite" (click)="remove()" mat-icon-button color="warn" aria-label="Remove favorite">
       <mat-icon>favorite</mat-icon>
     </button>
-    <button *ngIf="!item.favorite" (click)="add()" mat-icon-button color="warn" aria-label="Add favorite">
+    <button *ngIf="!favorite" (click)="add()" mat-icon-button color="warn" aria-label="Add favorite">
       <mat-icon>favorite_border</mat-icon>
     </button>
   </mat-card-actions>

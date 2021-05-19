@@ -1,5 +1,9 @@
 <button class="close-btn" mat-button>X</button>
 <h2 mat-dialog-title>Favorites</h2>
 <mat-dialog-content class="mat-typography">
-
+  <div *ngFor="let item of data.items">
+    <app-item-card [item]="item" [favorite]="item.favorite" (addFavorite)="onAddFavorite($event)"
+      (removeFavorite)="onRemoveFavorite($event)">
+    </app-item-card>
+  </div>
 </mat-dialog-content>

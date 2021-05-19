@@ -12,6 +12,7 @@ import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
 import { CatalogComponent } from './catalog/catalog.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CatalogComponent } from './catalog/catalog.component';
     NoopAnimationsModule,
     HttpClientModule,
     FormsModule,
+    FlexLayoutModule,
     SharedModule,
   ],
   entryComponents: [FavoriteDialogComponent],
