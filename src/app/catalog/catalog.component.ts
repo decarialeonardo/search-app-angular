@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { FavoriteDialogComponent } from '../favorite-dialog/favorite-dialog.component';
 import { ApiService } from '../shared/api/api.service';
 import { ItemResponse } from '../shared/model/ItemResponse';
+import { Store, select } from '@ngrx/store';
+import { ApplicationState } from '../state/app.state';
+import * as fromSearchApp from '../shared/state';
+import * as searchAppActions from '../shared/state/search.app.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalog',
@@ -14,12 +20,20 @@ export class CatalogComponent implements OnInit {
   filteredItems: Array<ItemResponse>;
   orderByKey: string;
   favoriteItems: Array<ItemResponse>;
+  favoriteItems$: Observable<ItemResponse[]>;
 
-  constructor(private _dialog: MatDialog, private apiService: ApiService) {
+  constructor(
+    private _dialog: MatDialog,
+    private apiService: ApiService,
+    private store: Store<ApplicationState>
+  ) {
     this.items = [];
     this.filteredItems = [];
     this.favoriteItems = [];
     this.orderByKey = 'title';
+    this.favoriteItems$ = this.store.pipe(
+      select(fromSearchApp.getFavoriteItems)
+    );
   }
 
   ngOnInit(): void {
@@ -30,6 +44,10 @@ export class CatalogComponent implements OnInit {
       });
       this.filteredItems = [...this.items];
       this.onOrderBy(this.orderByKey);
+      this.favoriteItems$.subscribe((favorites) => {
+        this.favoriteItems = favorites;
+        console.log(favorites);
+      });
     });
   }
 
@@ -55,28 +73,18 @@ export class CatalogComponent implements OnInit {
   }
 
   onAddFavorite(item: ItemResponse) {
-    let index = this.favoriteItems.findIndex((i: ItemResponse) => {
-      return i.id === item.id;
-    });
-    if (index !== -1) {
-      this.favoriteItems[index].favorite = true;
-    } else {
-      this.favoriteItems.push({
+    this.store.dispatch(
+      new searchAppActions.AddFavoriteItem({
         title: item.title,
         image: item.image,
         favorite: true,
         id: item.id,
-      });
-    }
+      })
+    );
   }
 
   onRemoveFavorite(item: ItemResponse) {
-    const idx = this.favoriteItems.findIndex(
-      (i: ItemResponse) => i.id === item.id
-    );
-    if (idx !== -1) {
-      this.favoriteItems.splice(idx, 1);
-    }
+    this.store.dispatch(new searchAppActions.RemoveFavoriteItem(item));
   }
 
   onOrderBy(key: string): void {

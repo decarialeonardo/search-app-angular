@@ -13,7 +13,9 @@ import { FormsModule } from '@angular/forms';
 import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { getInitialState, initialReducerMap } from './state/app.state';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +32,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FormsModule,
     FlexLayoutModule,
     SharedModule,
+    StoreModule.forRoot(initialReducerMap, { initialState: getInitialState }),
+    StoreDevtoolsModule.instrument({
+      name: 'app store',
+      maxAge: 25,
+    }),
   ],
   entryComponents: [FavoriteDialogComponent],
   providers: [ApiService],
