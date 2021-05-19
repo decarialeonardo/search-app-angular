@@ -5,7 +5,7 @@
       <app-search (submitSearch)="onSubmitSearch($event)"></app-search>
     </div>
     <div fxFlex="25" fxLayoutAlign="end">
-      <button mat-stroked-button color="accent" (click)="onShowFavorites()">
+      <button mat-raised-button color="accent" (click)="onShowFavorites()">
         Favoritos
         <mat-icon>favorite_border</mat-icon>
       </button>
@@ -15,7 +15,7 @@
 <div class="app-container">
   <div class="app-sub-header">
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1em">
-      <div fxFlex="75">Total de resultados {{filteredItems.length}}</div>
+      <div fxFlex="75">Total de resultados {{array.length}} de {{filteredItems.length}}</div>
       <div fxFlex="20" fxLayoutAlign="end">
         <mat-form-field appearance="fill">
           <mat-label>Ordenar por</mat-label>
@@ -29,13 +29,14 @@
       </div>
     </div>
   </div>
-  <div class="app-search-results" fxLayout="column" fxLayoutAlign="space-between center">
-    <div fxLayout="row wrap" fxLayoutAlign="space-around center" fxLayoutGap="2em grid">
-      <div *ngFor="let item of filteredItems">
-        <app-item-card fxLayout="column" fxLayoutGap="1em" [item]="item" [favorite]="isFavoriteItem(item)">
+  <div class="app-search-results">
+    <div fxLayout="row wrap" fxLayoutAlign="strech" fxLayoutGap="1em grid" infinite-scroll
+      [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
+      <div *ngFor="let item of array" fxFlex="25" fxFlex.xs="100">
+        <app-item-card [item]="item" [favorite]="isFavoriteItem(item)">
         </app-item-card>
       </div>
-      <div *ngIf="filteredItems.length === 0">
+      <div *ngIf="array.length === 0">
         <h2>No se han encontrado resultados</h2>
       </div>
     </div>

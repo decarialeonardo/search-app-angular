@@ -9,9 +9,9 @@
   <div class="image-container">
     <img mat-card-image src="{{item.image}}" alt="{{item.title}} image">
   </div>
-  <mat-card-content *ngIf="item.description" class="card-description">
-    <p>
-      {{item.description | truncate: 150 }}
+  <mat-card-content>
+    <p *ngIf="item.description" class="card-description">
+      {{item.description | truncate: 130 }}
     </p>
   </mat-card-content>
   <mat-card-actions>

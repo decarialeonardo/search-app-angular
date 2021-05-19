@@ -20,6 +20,11 @@ export class CatalogComponent implements OnInit {
   orderByKey: string;
   favoriteItems: Array<ItemResponse>;
   favoriteItems$: Observable<ItemResponse[]>;
+  array: Array<ItemResponse> = [];
+  step = 5;
+  throttle = 0;
+  scrollDistance = 2;
+  direction = '';
 
   constructor(
     private _dialog: MatDialog,
@@ -46,7 +51,26 @@ export class CatalogComponent implements OnInit {
       this.favoriteItems$.subscribe((favorites) => {
         this.favoriteItems = favorites;
       });
+      this.initScroll();
     });
+  }
+
+  initScroll() {
+    this.step = 5;
+    this.array = [];
+    for (let i = 0; i < this.step; ++i) {
+      if (this.filteredItems[i]) this.array.push(this.filteredItems[i]);
+    }
+  }
+
+  onScrollDown() {
+    if (this.step < this.filteredItems.length) {
+      const start = this.step;
+      this.step += 5;
+      for (let i = start; i < this.step; ++i) {
+        if (this.filteredItems[i]) this.array.push(this.filteredItems[i]);
+      }
+    }
   }
 
   onShowFavorites() {
@@ -94,6 +118,7 @@ export class CatalogComponent implements OnInit {
         }
       );
     }
+    this.initScroll();
   }
 
   isFavoriteItem(item: ItemResponse): boolean {

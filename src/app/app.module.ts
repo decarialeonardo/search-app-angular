@@ -17,6 +17,9 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { getInitialState, initialReducerMap } from './state/app.state';
 import { HeaderComponent } from './header/header.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +37,7 @@ import { HeaderComponent } from './header/header.component';
     FormsModule,
     FlexLayoutModule,
     SharedModule,
+    InfiniteScrollModule,
     StoreModule.forRoot(initialReducerMap, { initialState: getInitialState }),
     StoreDevtoolsModule.instrument({
       name: 'app store',
@@ -45,3 +49,5 @@ import { HeaderComponent } from './header/header.component';
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+platformBrowserDynamic().bootstrapModule(AppModule);
