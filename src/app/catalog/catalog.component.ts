@@ -8,7 +8,6 @@ import { Store, select } from '@ngrx/store';
 import { ApplicationState } from '../state/app.state';
 import * as fromSearchApp from '../shared/state';
 import * as searchAppActions from '../shared/state/search.app.actions';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalog',
@@ -46,14 +45,15 @@ export class CatalogComponent implements OnInit {
       this.onOrderBy(this.orderByKey);
       this.favoriteItems$.subscribe((favorites) => {
         this.favoriteItems = favorites;
-        console.log(favorites);
       });
     });
   }
 
   onShowFavorites() {
     const dialogRef = this._dialog.open(FavoriteDialogComponent, {
-      data: { items: this.favoriteItems },
+      width: '100%',
+      minHeight: 'calc(100vh - 90px)',
+      height: 'auto',
     });
   }
 
@@ -70,21 +70,6 @@ export class CatalogComponent implements OnInit {
       });
     }
     this.onOrderBy(this.orderByKey);
-  }
-
-  onAddFavorite(item: ItemResponse) {
-    this.store.dispatch(
-      new searchAppActions.AddFavoriteItem({
-        title: item.title,
-        image: item.image,
-        favorite: true,
-        id: item.id,
-      })
-    );
-  }
-
-  onRemoveFavorite(item: ItemResponse) {
-    this.store.dispatch(new searchAppActions.RemoveFavoriteItem(item));
   }
 
   onOrderBy(key: string): void {

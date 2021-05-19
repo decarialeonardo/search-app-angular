@@ -1,5 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ItemResponse } from '../shared/model/ItemResponse';
+import { Store, select } from '@ngrx/store';
+import { ApplicationState } from '../state/app.state';
+import * as fromSearchApp from '../shared/state';
+import * as searchAppActions from '../shared/state/search.app.actions';
 
 @Component({
   selector: 'app-item-card',
@@ -8,11 +12,9 @@ import { ItemResponse } from '../shared/model/ItemResponse';
 })
 export class ItemCardComponent implements OnInit {
   @Input() item: ItemResponse;
-  @Input() favorite: boolean;
-  @Output() removeFavorite: EventEmitter<ItemResponse> = new EventEmitter();
-  @Output() addFavorite: EventEmitter<ItemResponse> = new EventEmitter();
+  @Input() favorite: boolean | undefined;
 
-  constructor() {
+  constructor(private store: Store<ApplicationState>) {
     this.item = {} as ItemResponse;
     this.favorite = false;
   }
@@ -20,10 +22,17 @@ export class ItemCardComponent implements OnInit {
   ngOnInit(): void {}
 
   add() {
-    this.addFavorite.emit(this.item);
+    this.store.dispatch(
+      new searchAppActions.AddFavoriteItem({
+        title: this.item.title,
+        image: this.item.image,
+        favorite: true,
+        id: this.item.id,
+      })
+    );
   }
 
   remove() {
-    this.removeFavorite.emit(this.item);
+    this.store.dispatch(new searchAppActions.RemoveFavoriteItem(this.item));
   }
 }

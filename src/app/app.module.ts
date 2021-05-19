@@ -16,6 +16,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { getInitialState, initialReducerMap } from './state/app.state';
+import { HeaderComponent } from './header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +24,7 @@ import { getInitialState, initialReducerMap } from './state/app.state';
     SearchComponent,
     FavoriteDialogComponent,
     CatalogComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

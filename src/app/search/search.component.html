@@ -1,5 +1,6 @@
 <mat-form-field class="input-full-width">
-  <input matInput type="text" [(ngModel)]="searchBy">
+  <input matInput type="search" [(ngModel)]="searchBy" (search)="onClickSearch()"
+    placeholder="Buscar por Titulo, Descripcion, Email or Precio">
   <button mat-button matSuffix mat-icon-button (click)="onClickSearch()">
     <mat-icon>search</mat-icon>
   </button>

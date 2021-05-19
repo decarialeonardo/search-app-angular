@@ -1,8 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: lightgrey; }
 .app-container {
+  padding-left: 4.5em;
+  padding-right: 4.5em; 
   margin: 0 auto;
   overflow: hidden;
+}
+
+.app-search-results {
+  padding-top: 1em;
+  
+}
+
+.app-sub-header {
+  padding-top: 7em;
+  margin: 0 auto;
 }
