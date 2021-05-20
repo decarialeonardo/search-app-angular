@@ -15,11 +15,12 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button class="fav-button" *ngIf="favorite" (click)="remove()" mat-icon-button color="warn"
+    <button class="fav-button" *ngIf="favorite" (click)="removeFavorite()" mat-icon-button color="warn"
       aria-label="Remove favorite">
       <mat-icon>favorite</mat-icon>
     </button>
-    <button class="fav-button" *ngIf="!favorite" (click)="add()" mat-icon-button color="warn" aria-label="Add favorite">
+    <button class="fav-button" *ngIf="!favorite" (click)="addFavorite()" mat-icon-button color="warn"
+      aria-label="Add favorite">
       <mat-icon>favorite_border</mat-icon>
     </button>
   </mat-card-actions>

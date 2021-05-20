@@ -15,11 +15,10 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { getInitialState, initialReducerMap } from './state/app.state';
-import { HeaderComponent } from './header/header.component';
+import { getInitialState, initialReducerMap } from './app.state';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
+import { AppParameters } from './app.parameters';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +26,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
     SearchComponent,
     FavoriteDialogComponent,
     CatalogComponent,
-    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +43,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
     }),
   ],
   entryComponents: [FavoriteDialogComponent],
-  providers: [ApiService],
+  providers: [ApiService, AppParameters],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

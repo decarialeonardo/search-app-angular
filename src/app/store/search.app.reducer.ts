@@ -1,5 +1,5 @@
 import { SearchAppActions, SearchAppActionTypes } from './search.app.actions';
-import { ItemResponse } from '../model/ItemResponse';
+import { ItemResponse } from '../shared/model/ItemResponse';
 
 export interface SearchAppState {
   favoriteItems: Array<ItemResponse>;

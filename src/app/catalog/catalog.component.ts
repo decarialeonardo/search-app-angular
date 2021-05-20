@@ -5,9 +5,11 @@ import { FavoriteDialogComponent } from '../favorite-dialog/favorite-dialog.comp
 import { ApiService } from '../shared/api/api.service';
 import { ItemResponse } from '../shared/model/ItemResponse';
 import { Store, select } from '@ngrx/store';
-import { ApplicationState } from '../state/app.state';
-import * as fromSearchApp from '../shared/state';
-import * as searchAppActions from '../shared/state/search.app.actions';
+import { ApplicationState } from '../app.state';
+import * as fromSearchApp from '../store';
+import { HelperService } from '../shared/helpers/helper.service';
+import { SortFieldsType } from '../shared/model/sortFieldsType';
+import { AppParameters } from '../app.parameters';
 
 @Component({
   selector: 'app-catalog',
@@ -17,24 +19,22 @@ import * as searchAppActions from '../shared/state/search.app.actions';
 export class CatalogComponent implements OnInit {
   items: Array<ItemResponse>;
   filteredItems: Array<ItemResponse>;
-  orderByKey: string;
   favoriteItems: Array<ItemResponse>;
   favoriteItems$: Observable<ItemResponse[]>;
-  array: Array<ItemResponse> = [];
-  step = 5;
-  throttle = 0;
-  scrollDistance = 2;
-  direction = '';
+  paginatedItems: Array<ItemResponse> = [];
+  step = AppParameters.INFINIT_SCROLL.ITEMS_SHOW;
+  throttle = AppParameters.INFINIT_SCROLL.TRHTOTTLE;
+  scrollDistance = AppParameters.INFINIT_SCROLL.SCROLLDISTANCE;
 
   constructor(
     private _dialog: MatDialog,
     private apiService: ApiService,
+    private helperService: HelperService,
     private store: Store<ApplicationState>
   ) {
     this.items = [];
     this.filteredItems = [];
     this.favoriteItems = [];
-    this.orderByKey = 'title';
     this.favoriteItems$ = this.store.pipe(
       select(fromSearchApp.getFavoriteItems)
     );
@@ -43,37 +43,35 @@ export class CatalogComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getItems().subscribe((items: Array<ItemResponse>) => {
       this.items = items;
-      this.items.map((e, index) => {
-        e.id = index.toString();
-      });
       this.filteredItems = [...this.items];
-      this.onOrderBy(this.orderByKey);
       this.favoriteItems$.subscribe((favorites) => {
         this.favoriteItems = favorites;
       });
-      this.initScroll();
+      this.onOrderBy(SortFieldsType.TITLE);
     });
   }
 
-  initScroll() {
-    this.step = 5;
-    this.array = [];
+  initScroll(): void {
+    this.step = AppParameters.INFINIT_SCROLL.ITEMS_SHOW;
+    this.paginatedItems = [];
     for (let i = 0; i < this.step; ++i) {
-      if (this.filteredItems[i]) this.array.push(this.filteredItems[i]);
+      if (this.filteredItems[i])
+        this.paginatedItems.push(this.filteredItems[i]);
     }
   }
 
-  onScrollDown() {
+  onScrollDown(): void {
     if (this.step < this.filteredItems.length) {
       const start = this.step;
-      this.step += 5;
+      this.step += AppParameters.INFINIT_SCROLL.ITEMS_SHOW;
       for (let i = start; i < this.step; ++i) {
-        if (this.filteredItems[i]) this.array.push(this.filteredItems[i]);
+        if (this.filteredItems[i])
+          this.paginatedItems.push(this.filteredItems[i]);
       }
     }
   }
 
-  onShowFavorites() {
+  onShowFavorites(): void {
     const dialogRef = this._dialog.open(FavoriteDialogComponent, {
       width: '100%',
       minHeight: 'calc(100vh - 90px)',
@@ -81,41 +79,21 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  onSubmitSearch(value: string): void {
-    if (!value) {
-      this.filteredItems = this.items;
-    } else {
-      value = value.toLowerCase();
-      this.filteredItems = this.items.filter((item: ItemResponse) => {
-        let itemCopy = { ...item };
-        itemCopy.image = '';
-        delete itemCopy.id;
-        return JSON.stringify(itemCopy).toLowerCase().includes(value);
-      });
-    }
-    this.onOrderBy(this.orderByKey);
+  onSubmitSearch(filteredItems: Array<ItemResponse>): void {
+    this.filteredItems = [...filteredItems];
+    this.onOrderBy(SortFieldsType.TITLE);
   }
 
   onOrderBy(key: string): void {
-    if (key === 'price') {
-      this.filteredItems.sort((a: ItemResponse, b: ItemResponse) => {
-        return Number(a[key]) - Number(b[key]);
-      });
+    if (key === SortFieldsType.PRICE) {
+      this.filteredItems = this.helperService.sortItemsByNumber(
+        this.filteredItems,
+        key
+      );
     } else {
-      this.filteredItems = this.filteredItems.sort(
-        (a: ItemResponse, b: ItemResponse) => {
-          if (
-            (a[key] as string).toLowerCase() > (b[key] as string).toLowerCase()
-          ) {
-            return 1;
-          }
-          if (
-            (a[key] as string).toLowerCase() < (b[key] as string).toLowerCase()
-          ) {
-            return -1;
-          }
-          return 0;
-        }
+      this.filteredItems = this.helperService.sortItemsBy(
+        this.filteredItems,
+        key
       );
     }
     this.initScroll();

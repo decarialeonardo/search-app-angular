@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ItemResponse } from '../shared/model/ItemResponse';
 import { Store, select } from '@ngrx/store';
-import { ApplicationState } from '../state/app.state';
-import * as fromSearchApp from '../shared/state';
-import * as searchAppActions from '../shared/state/search.app.actions';
+import { ApplicationState } from '../app.state';
+import * as fromSearchApp from '../store';
+import * as searchAppActions from '../store/search.app.actions';
 
 @Component({
   selector: 'app-item-card',
@@ -21,7 +21,7 @@ export class ItemCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  add() {
+  addFavorite() {
     this.store.dispatch(
       new searchAppActions.AddFavoriteItem({
         title: this.item.title,
@@ -32,7 +32,7 @@ export class ItemCardComponent implements OnInit {
     );
   }
 
-  remove() {
+  removeFavorite() {
     this.store.dispatch(new searchAppActions.RemoveFavoriteItem(this.item));
   }
 }

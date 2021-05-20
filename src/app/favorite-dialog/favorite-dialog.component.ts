@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ItemResponse } from '../shared/model/ItemResponse';
 import { Store, select } from '@ngrx/store';
-import { ApplicationState } from '../state/app.state';
-import * as fromSearchApp from '../shared/state';
+import { ApplicationState } from '../app.state';
+import * as fromSearchApp from '../store';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-favorite-dialog',
@@ -32,17 +32,7 @@ export class FavoriteDialogComponent implements OnInit {
     });
   }
 
-  onSubmitSearch(value: string): void {
-    if (!value) {
-      this.filteredItems = this.favoriteItems;
-    } else {
-      value = value.toLowerCase();
-      this.filteredItems = this.favoriteItems.filter((item: ItemResponse) => {
-        let itemCopy = { ...item };
-        itemCopy.image = '';
-        delete itemCopy.id;
-        return JSON.stringify(itemCopy).toLowerCase().includes(value);
-      });
-    }
+  onSubmitSearch(filteredItems: Array<ItemResponse>): void {
+    this.filteredItems = [...filteredItems];
   }
 }

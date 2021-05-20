@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ItemResponse } from '../model/ItemResponse';
+import { ItemResponse } from '../shared/model/ItemResponse';
 
 export enum SearchAppActionTypes {
   ADD_FAVORITE_ITEM = '[Search App] Add favorite Item',

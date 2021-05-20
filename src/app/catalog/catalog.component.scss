@@ -2,7 +2,29 @@
     position: fixed;
     z-index: 2;
     padding-top: 1em;
-    .app-header-spacer {
-        flex: 1 1 auto;
+    .fav-button-title{
+        margin-right: 0.5em;
     }
 }
+
+.app-container {
+    &.padding-xs {
+        padding-left: 2em;
+        padding-right: 2em; 
+    }
+    padding-left: 6em;
+    padding-right: 6em;
+    margin: 0 auto;
+    overflow: hidden;
+
+    .app-sub-header {
+        padding-top: 7em;
+        margin: 0 auto;
+      }
+    .app-search-results {
+        padding-top: 1em;
+        
+    }
+}
+  
+  

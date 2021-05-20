@@ -1,21 +1,37 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { ItemResponse } from '../shared/model/ItemResponse';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-  @Output() submitSearch: EventEmitter<string> = new EventEmitter();
+  @Output() submitSearch: EventEmitter<
+    Array<ItemResponse>
+  > = new EventEmitter();
   searchBy: string;
+  @Input() placeholder: string;
+  @Input() items: Array<ItemResponse>;
 
   constructor() {
     this.searchBy = '';
+    this.placeholder = 'Buscar por';
+    this.items = [];
   }
 
   ngOnInit(): void {}
 
-  onClickSearch(from?: any): void {
-    console.log(from);
-    this.submitSearch.emit(this.searchBy);
+  onClickSearch(): void {
+    let filteredItems = this.items;
+    if (this.searchBy) {
+      let value = this.searchBy.toLowerCase();
+      filteredItems = this.items.filter((item: ItemResponse) => {
+        let itemCopy = { ...item };
+        itemCopy.image = '';
+        delete itemCopy.id;
+        return JSON.stringify(itemCopy).toLowerCase().includes(value);
+      });
+    }
+    this.submitSearch.emit(filteredItems);
   }
 }
