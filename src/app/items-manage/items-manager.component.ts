@@ -12,16 +12,17 @@ import { SortFieldsType } from '../shared/model/sortFieldsType';
 import { AppParameters } from '../app.parameters';
 
 @Component({
-  selector: 'app-catalog',
-  templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.scss'],
+  selector: 'app-items-manager',
+  templateUrl: './items-manager.component.html',
+  styleUrls: ['./items-manager.component.scss'],
 })
-export class CatalogComponent implements OnInit {
+export class ItemsManagerComponent implements OnInit {
   items: Array<ItemResponse>;
   filteredItems: Array<ItemResponse>;
   favoriteItems: Array<ItemResponse>;
   favoriteItems$: Observable<ItemResponse[]>;
   paginatedItems: Array<ItemResponse> = [];
+
   step = AppParameters.INFINIT_SCROLL.ITEMS_SHOW;
   throttle = AppParameters.INFINIT_SCROLL.TRHTOTTLE;
   scrollDistance = AppParameters.INFINIT_SCROLL.SCROLLDISTANCE;
@@ -72,11 +73,10 @@ export class CatalogComponent implements OnInit {
   }
 
   onShowFavorites(): void {
-    const dialogRef = this._dialog.open(FavoriteDialogComponent, {
-      width: '100%',
-      minHeight: 'calc(100vh - 90px)',
-      height: 'auto',
-    });
+    const dialogRef = this._dialog.open(
+      FavoriteDialogComponent,
+      AppParameters.FAVORITE_DIALOG_PARAMS
+    );
   }
 
   onSubmitSearch(filteredItems: Array<ItemResponse>): void {

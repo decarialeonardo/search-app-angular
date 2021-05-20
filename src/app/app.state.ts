@@ -1,8 +1,5 @@
 import { ActionReducerMap } from '@ngrx/store';
 import * as search from './store/search.app.reducer';
-
-// Representation of the entire app state
-// Extended by lazy loaded modules
 export interface ApplicationState {
   app: search.SearchAppState;
 }
