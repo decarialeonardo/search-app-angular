@@ -37,7 +37,21 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeNoSandboxHeadless'],
+    customLaunchers: {
+      ChromeNoSandboxHeadless: {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox',
+          // See https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+          '--headless',
+          '--disable-gpu',
+          '--disable-dev-shm-usage',
+          // Without a remote debugging port, Google Chrome exits immediately.
+          ' --remote-debugging-port=9222',
+        ],
+      },
+    },
     singleRun: false,
     restartOnFileChange: true
   });
