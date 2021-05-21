@@ -9,6 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { ItemCardComponent } from '../item-card/item-card.component';
+import { SearchComponent } from '../search/search.component';
+import { getFavoriteItems } from '../store';
 import { FavoriteDialogComponent } from './favorite-dialog.component';
 
 describe('FavoriteDialogComponent', () => {
@@ -16,14 +19,17 @@ describe('FavoriteDialogComponent', () => {
   let fixture: ComponentFixture<FavoriteDialogComponent>;
   let store: MockStore;
   let dialogRef: jasmine.SpyObj<MatDialogRef<FavoriteDialogComponent>>;
-  const initialState = {};
+  const initialState = { favoriteItems: [] };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FavoriteDialogComponent],
+      declarations: [
+        FavoriteDialogComponent,
+        SearchComponent,
+        ItemCardComponent,
+      ],
       imports: [
         MatIconModule,
-        MatFormFieldModule,
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
@@ -39,16 +45,23 @@ describe('FavoriteDialogComponent', () => {
     dialogRef = TestBed.inject(MatDialogRef) as jasmine.SpyObj<
       MatDialogRef<FavoriteDialogComponent>
     >;
+    store = TestBed.inject(MockStore);
+    store.overrideSelector(getFavoriteItems, []);
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FavoriteDialogComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(MockStore);
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    fixture.destroy();
+    TestBed.resetTestingModule();
   });
 });

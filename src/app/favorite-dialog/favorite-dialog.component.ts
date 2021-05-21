@@ -11,25 +11,23 @@ import { Observable } from 'rxjs';
   styleUrls: ['./favorite-dialog.component.scss'],
 })
 export class FavoriteDialogComponent implements OnInit {
-  favoriteItems$: Observable<ItemResponse[]>;
   favoriteItems: Array<ItemResponse>;
   filteredItems: Array<ItemResponse>;
   constructor(
     public dialogRef: MatDialogRef<FavoriteDialogComponent>,
     private store: Store<ApplicationState>
   ) {
-    this.favoriteItems$ = this.store.pipe(
-      select(fromSearchApp.getFavoriteItems)
-    );
     this.favoriteItems = [];
     this.filteredItems = [];
   }
 
   ngOnInit(): void {
-    this.favoriteItems$.subscribe((favorites) => {
-      this.favoriteItems = favorites;
-      this.filteredItems = [...this.favoriteItems];
-    });
+    this.store
+      .pipe(select(fromSearchApp.getFavoriteItems))
+      .subscribe((favorites) => {
+        this.favoriteItems = favorites;
+        this.filteredItems = [...this.favoriteItems];
+      });
   }
 
   onSubmitSearch(filteredItems: Array<ItemResponse>): void {

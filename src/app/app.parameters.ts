@@ -5,7 +5,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 export class AppParameters {
   public static INFINIT_SCROLL = {
     TRHTOTTLE: 0,
-    SCROLLDISTANCE: 0.25,
+    SCROLLDISTANCE: 0.15,
     ITEMS_SHOW: 5,
   };
   public static URL_ENDPOINT =

@@ -3,7 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { ApiService } from './shared/api/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ItemCardComponent } from './item-card/item-card.component';
@@ -29,6 +32,7 @@ import { AppParameters } from './app.parameters';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NoopAnimationsModule,
     HttpClientModule,

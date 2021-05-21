@@ -14,5 +14,5 @@ const getAppFeatureState = createFeatureSelector<fromSearchApp.SearchAppState>(
 
 export const getFavoriteItems = createSelector(
   getAppFeatureState,
-  (state) => state.favoriteItems
+  (state) => state?.favoriteItems
 );

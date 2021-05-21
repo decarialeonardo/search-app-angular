@@ -20,7 +20,6 @@ export class ItemsManagerComponent implements OnInit {
   items: Array<ItemResponse>;
   filteredItems: Array<ItemResponse>;
   favoriteItems: Array<ItemResponse>;
-  favoriteItems$: Observable<ItemResponse[]>;
   paginatedItems: Array<ItemResponse> = [];
 
   step = AppParameters.INFINIT_SCROLL.ITEMS_SHOW;
@@ -36,18 +35,17 @@ export class ItemsManagerComponent implements OnInit {
     this.items = [];
     this.filteredItems = [];
     this.favoriteItems = [];
-    this.favoriteItems$ = this.store.pipe(
-      select(fromSearchApp.getFavoriteItems)
-    );
   }
 
   ngOnInit(): void {
     this.apiService.getItems().subscribe((items: Array<ItemResponse>) => {
       this.items = items;
       this.filteredItems = [...this.items];
-      this.favoriteItems$.subscribe((favorites) => {
-        this.favoriteItems = favorites;
-      });
+      this.store
+        .pipe(select(fromSearchApp.getFavoriteItems))
+        .subscribe((favorites) => {
+          this.favoriteItems = favorites;
+        });
       this.onOrderBy(SortFieldsType.TITLE);
     });
   }
