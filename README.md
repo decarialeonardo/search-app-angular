@@ -7,7 +7,7 @@ Make sure you have installed Node.js (>=v14.0.0) [Download & Install Node.js](ht
 ## Starting point
 
 Clone this project
-`sh git clone https://github.com/decarialeonardo/search-app-angular.git `
+`git clone https://github.com/decarialeonardo/search-app-angular.git`
 
 Open a console and cd into your project folder and run `npm install`.
 
@@ -18,4 +18,5 @@ Navigate to `http://localhost:4200/`. The app will automatically reload if you c
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
 Run `npm run test` to execute the unit tests w/ coverage.
