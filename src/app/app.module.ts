@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
   BrowserAnimationsModule,
-  NoopAnimationsModule,
+  NoopAnimationsModule
 } from '@angular/platform-browser/animations';
 import { ApiService } from './shared/api/api.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,7 +19,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { getInitialState, initialReducerMap } from './app.state';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppParameters } from './app.parameters';
 @NgModule({
@@ -28,7 +27,7 @@ import { AppParameters } from './app.parameters';
     ItemCardComponent,
     SearchComponent,
     FavoriteDialogComponent,
-    ItemsManagerComponent,
+    ItemsManagerComponent
   ],
   imports: [
     BrowserModule,
@@ -39,16 +38,15 @@ import { AppParameters } from './app.parameters';
     FormsModule,
     FlexLayoutModule,
     SharedModule,
-    InfiniteScrollModule,
     StoreModule.forRoot(initialReducerMap, { initialState: getInitialState }),
     StoreDevtoolsModule.instrument({
       name: 'app store',
-      maxAge: 25,
-    }),
+      maxAge: 25
+    })
   ],
   entryComponents: [FavoriteDialogComponent],
   providers: [ApiService, AppParameters],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
 
