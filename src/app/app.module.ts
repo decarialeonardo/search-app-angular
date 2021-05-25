@@ -14,7 +14,7 @@ import { SearchComponent } from './search/search.component';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
-import { ItemsManagerComponent } from './items-manage/items-manager.component';
+import { ItemsManagerComponent } from './items-manager/items-manager.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';

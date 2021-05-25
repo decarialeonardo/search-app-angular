@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ItemsManagerComponent } from './items-manage/items-manager.component';
+import { ItemsManagerComponent } from './items-manager/items-manager.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'search',
-    pathMatch: 'full',
+    pathMatch: 'full'
   },
   {
     path: 'search',
-    component: ItemsManagerComponent,
-  },
+    component: ItemsManagerComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}
