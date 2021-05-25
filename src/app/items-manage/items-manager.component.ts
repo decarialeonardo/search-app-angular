@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { FavoriteDialogComponent } from '../favorite-dialog/favorite-dialog.component';
 import { ApiService } from '../shared/api/api.service';
 import { ItemResponse } from '../shared/model/ItemResponse';
@@ -10,6 +9,7 @@ import * as fromSearchApp from '../store';
 import { HelperService } from '../shared/helpers/helper.service';
 import { SortFieldsType } from '../shared/model/sortFieldsType';
 import { AppParameters } from '../app.parameters';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-items-manager',
@@ -20,11 +20,13 @@ export class ItemsManagerComponent implements OnInit {
   items: Array<ItemResponse>;
   filteredItems: Array<ItemResponse>;
   favoriteItems: Array<ItemResponse>;
-  paginatedItems: Array<ItemResponse> = [];
 
-  step = AppParameters.INFINIT_SCROLL.ITEMS_SHOW;
-  throttle = AppParameters.INFINIT_SCROLL.TRHTOTTLE;
-  scrollDistance = AppParameters.INFINIT_SCROLL.SCROLLDISTANCE;
+  paginatedItems: Array<ItemResponse> = [];
+  @ViewChild(MatPaginator, { static: false })
+  paginator: MatPaginator | undefined;
+  pageSize: number;
+  currentPage: number;
+  totalSize: number;
 
   constructor(
     private _dialog: MatDialog,
@@ -35,6 +37,9 @@ export class ItemsManagerComponent implements OnInit {
     this.items = [];
     this.filteredItems = [];
     this.favoriteItems = [];
+    this.pageSize = AppParameters.PAGINATION.ITEMS_PER_PAGE;
+    this.currentPage = 0;
+    this.totalSize = 0;
   }
 
   ngOnInit(): void {
@@ -50,28 +55,17 @@ export class ItemsManagerComponent implements OnInit {
     });
   }
 
-  initScroll(): void {
-    this.step = AppParameters.INFINIT_SCROLL.ITEMS_SHOW;
-    this.paginatedItems = [];
-    for (let i = 0; i < this.step; ++i) {
-      if (this.filteredItems[i])
-        this.paginatedItems.push(this.filteredItems[i]);
-    }
-  }
-
-  onScrollDown(): void {
-    if (this.step < this.filteredItems.length) {
-      const start = this.step;
-      this.step += AppParameters.INFINIT_SCROLL.ITEMS_SHOW;
-      for (let i = start; i < this.step; ++i) {
-        if (this.filteredItems[i])
-          this.paginatedItems.push(this.filteredItems[i]);
-      }
-    }
+  handlerPage(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    const start = this.currentPage * this.pageSize;
+    const end = (this.currentPage + 1) * this.pageSize;
+    const part = this.filteredItems.slice(start, end);
+    this.paginatedItems = part;
   }
 
   onShowFavorites(): void {
-    const dialogRef = this._dialog.open(
+    this._dialog.open(
       FavoriteDialogComponent,
       AppParameters.FAVORITE_DIALOG_PARAMS
     );
@@ -94,7 +88,14 @@ export class ItemsManagerComponent implements OnInit {
         key
       );
     }
-    this.initScroll();
+    this.handlerPage({
+      pageIndex: 0,
+      pageSize: AppParameters.PAGINATION.ITEMS_PER_PAGE,
+      length: this.filteredItems.length,
+    });
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
   }
 
   isFavoriteItem(item: ItemResponse): boolean {

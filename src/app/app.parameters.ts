@@ -3,10 +3,10 @@ import { MatDialogConfig } from '@angular/material/dialog';
 
 @Injectable()
 export class AppParameters {
-  public static INFINIT_SCROLL = {
+  public static PAGINATION = {
     TRHTOTTLE: 0,
     SCROLLDISTANCE: 0.15,
-    ITEMS_SHOW: 5,
+    ITEMS_PER_PAGE: 5,
   };
   public static URL_ENDPOINT =
     'https://frontend-tech-test-data.s3.eu-west-1.amazonaws.com/items.json';

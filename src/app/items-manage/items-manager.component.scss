@@ -1,3 +1,5 @@
+@import 'variables';
+
 .app-header {
     position: fixed;
     z-index: 2;
@@ -23,7 +25,13 @@
       }
     .app-search-results {
         padding-top: 1em;
-        
+        .paginator {
+            padding-top: 2em;
+            ::ng-deep .mat-paginator-container {
+                background-color: $lightgrey;
+                justify-content: space-around;
+            }
+        }
     }
 }
   

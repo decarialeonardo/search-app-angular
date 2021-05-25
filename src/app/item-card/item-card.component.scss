@@ -1,9 +1,19 @@
-.item-card{
+@import 'variables';
+
+.item-card {
     max-width: 300px;
+
+    ::ng-deep .mat-card-header-text {
+        margin: 0px !important;
+    }
+
+    .title-container{
+        height: 4em;
+    }
     .image-container {
-        height: 253px;
-        padding: 4px 4px 0;
-        background-color: #fff;
+        height: 255px;
+        padding: 1em 1em 0;
+        background-color: $white;
         overflow: hidden;
         position: relative;
     img {
@@ -19,3 +29,4 @@
         cursor: pointer;
     }
 }
+

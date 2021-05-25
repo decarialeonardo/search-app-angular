@@ -4,7 +4,6 @@ import { ItemResponse } from '../shared/model/ItemResponse';
 import { Store, select } from '@ngrx/store';
 import { ApplicationState } from '../app.state';
 import * as fromSearchApp from '../store';
-import { Observable } from 'rxjs';
 @Component({
   selector: 'app-favorite-dialog',
   templateUrl: './favorite-dialog.component.html',

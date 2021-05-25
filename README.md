@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Make sure you have installed Node.js (>=v14.0.0) [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+Make sure you have installed Node.js (>=v14.15.0) [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
 
 ## Starting point
 

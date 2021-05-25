@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-title>
       <h2 *ngIf="item.price">{{item.price}}€</h2>
-      <h3>{{item.title}}</h3>
+      <h3 ngClass.lg="title-container">{{item.title}}</h3>
     </mat-card-title>
     <mat-card-subtitle *ngIf="item.email">{{item.email}}</mat-card-subtitle>
   </mat-card-header>
@@ -10,9 +10,14 @@
     <img mat-card-image src="{{item.image}}" alt="{{item.title}} image">
   </div>
   <mat-card-content>
-    <p *ngIf="item.description" class="card-description">
-      {{item.description | truncate: 130 }}
-    </p>
+    <ng-container *ngIf="item.description">
+      <p [fxHide.xs]="true" class="card-description">
+        {{item.description | truncate: 90 }}
+      </p>
+      <p [fxHide.gt-xs]="true" class="card-description">
+        {{item.description | truncate: 150 }}
+      </p>
+    </ng-container>
   </mat-card-content>
   <mat-card-actions>
     <button class="fav-button" *ngIf="favorite" (click)="removeFavorite()" mat-icon-button color="warn"

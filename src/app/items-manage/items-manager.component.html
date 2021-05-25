@@ -21,7 +21,7 @@
 <div class="app-container" ngClass.xs="padding-xs">
   <div class="app-sub-header">
     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutGap="1em">
-      <div fxFlex="75">Total de resultados {{paginatedItems.length}} de {{filteredItems.length}}</div>
+      <div fxFlex="75">Total de resultados encontrados: {{filteredItems.length}}</div>
       <div fxFlex="20" fxLayoutAlign="end">
         <mat-form-field appearance="fill">
           <mat-label>Ordenar por</mat-label>
@@ -36,15 +36,19 @@
     </div>
   </div>
   <div class="app-search-results">
-    <div fxLayout="row wrap" fxLayoutAlign="strech" fxLayoutGap="1em grid" infinite-scroll
-      [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
-      <div *ngFor="let item of paginatedItems" fxFlex="25" fxFlex.xs="100" fxFlex.md="33" fxFlex.sm="50">
+    <div fxLayout="row wrap" fxLayoutAlign="strech" fxLayoutGap="1em grid">
+      <div *ngFor="let item of paginatedItems" fxFlex="20" fxFlex.xs="100" fxFlex.md="33" fxFlex.sm="50">
         <app-item-card [item]="item" [favorite]="isFavoriteItem(item)">
         </app-item-card>
       </div>
       <div *ngIf="paginatedItems.length === 0">
         <h2>No se han encontrado resultados</h2>
       </div>
+    </div>
+    <div class="paginator">
+      <mat-paginator *ngIf="filteredItems.length > pageSize" [hidePageSize]="true" [length]="filteredItems.length"
+        [pageSize]="pageSize" (page)="handlerPage($event)">
+      </mat-paginator>
     </div>
   </div>
 </div>

@@ -1,19 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { of } from 'rxjs';
 import { MockItemCardComponent } from '../item-card/mock-item-card.component';
 import { MockSearchComponent } from '../search/mock-search.component';
-import { SearchComponent } from '../search/search.component';
 import { ApiService } from '../shared/api/api.service';
 import { HelperService } from '../shared/helpers/helper.service';
 import { itemsMock } from '../shared/mocks/itemsResponseMock';
@@ -43,8 +40,8 @@ describe('ItemsManagerComponent', () => {
         MatIconModule,
         MatButtonModule,
         MatDialogModule,
+        MatPaginatorModule,
         BrowserAnimationsModule,
-        InfiniteScrollModule,
         FormsModule,
       ],
       providers: [
@@ -88,11 +85,14 @@ describe('ItemsManagerComponent', () => {
     expect(component.isFavoriteItem(itemsMock[1])).toBe(false);
   });
 
-  it('should show more items when the user scrolls down', () => {
-    component.onScrollDown();
-    expect(component.paginatedItems.length).toBe(
-      component.filteredItems.length
-    );
+  it('should show more items when the user go to the next page', () => {
+    const e: PageEvent = {
+      pageIndex: 1,
+      pageSize: 5,
+      length: itemsMock.length,
+    };
+    component.handlerPage(e);
+    expect(component.paginatedItems.length).toBeGreaterThan(0);
   });
 
   afterAll(() => {
